@@ -26,8 +26,12 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        String[] origins = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .toArray(String[]::new);
+
         registry.addMapping("/api/**")
-                .allowedOrigins(allowedOrigins.split(","))
+                .allowedOriginPatterns(origins)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
                 .allowedHeaders("*")
                 .allowCredentials(true)
@@ -37,7 +41,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+        Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .forEach(configuration::addAllowedOriginPattern);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
