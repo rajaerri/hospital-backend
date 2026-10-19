@@ -1,0 +1,22 @@
+# Maven build output
+target/
+*.class
+
+# Persistent local database files
+data/
+*.db
+*.mv.db
+*.trace.db
+
+# IDE configuration files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Environment and sensitive local files
+.env
+.env.local
+*.log
